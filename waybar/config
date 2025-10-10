@@ -1,0 +1,185 @@
+{
+    
+    "layer": "bottom",
+    "position": "top",
+    "reload_style_on_change": true,
+
+
+    "modules-left": [
+        "custom/mpd",
+        "custom/visualizer",
+        "hyprland/window",
+        "privacy"
+    ],
+    
+    "modules-center": [
+        "hyprland/workspaces"
+    ],
+    
+    "modules-right": [
+        "backlight",
+        "cpu",
+        "memory",
+        "temperature",
+        "bluetooth",
+        "pulseaudio",
+        "clock",
+        "network",
+        "battery",
+        "custom/power"
+    ],
+
+
+    "hyprland/workspaces": {
+        "format": "{icon}",
+        "format-icons": {
+            "active": "<span font = '12'></span>",
+            "default": "<span font = '12'></span>",                
+	        "empty": "<span font = '12'></span>"
+        },
+        
+        "persistent-workspaces": {
+            "*": [ 1,2,3,4,5,6 ]
+        }
+    },
+
+    "clock": {
+        "format": "{:%I:%M:%S %p} ",
+        "interval": 1,   
+        "tooltip-format": "<tt>{calendar}</tt>",
+        "calendar": {
+            "format": {
+                "today": "<span color='#fAfBfC'><b>{}</b></span>"
+            }
+        },
+        "actions": {
+            "on-click-right": "shift_down",
+            "on-click": "shift_up"
+        }
+    },
+
+    "network": {
+        "format-wifi": "",
+        "format-ethernet":"",
+        "format-disconnected": "",
+        "tooltip-format-disconnected": "disconnected",
+        "tooltip-format-wifi": "{essid} ({signalStrength}%)",
+        "tooltip-format-ethernet": "{ifname} 🖧 "
+    },
+
+	"pulseaudio": {
+    "scroll-step": 5,
+    "format": "{icon} {volume}%",
+    "format-muted": "🔇 {volume}%",
+    "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+    "on-scroll-up": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+",
+    "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-",
+    "on-click-right": "pavucontrol", 
+    "format-icons": {
+        "default": ["🔈", "🔉", "🔊"]
+    }
+},
+
+    "bluetooth": {
+        "format-on": "󰂯",
+        "format-off": "BT-off",
+        "format-disabled": "󰂲",
+        "format-connected-battery": "{device_battery_percentage}% 󰂯",
+        "format-alt": "{device_alias} 󰂯",
+        "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
+        "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
+        "tooltip-format-enumerate-connected": "{device_alias}\n{device_address}",
+        "tooltip-format-enumerate-connected-battery": "{device_alias}\n{device_address}\n{device_battery_percentage}%",
+        "on-click-right": "blueman-manager"
+    }, 
+
+    "battery": {
+        "interval":30,
+        "states": {
+            "good": 95,
+            "warning": 30,
+            "critical": 20
+        },
+        "format": "{capacity}% {icon}",
+        "format-charging": "{capacity}% 󰂄",
+        "format-plugged": "{capacity}% 󰂄 ",
+        "format-alt": "{time} {icon}",
+        "format-icons": [
+            "󰁻",
+            "󰁼",
+            "󰁾",
+            "󰂀",
+            "󰂂",
+            "󰁹"
+        ]
+    },
+    
+    "cpu": {
+        "format": "󰻠",
+        "tooltip": true
+    },
+
+    "memory": {
+        "format": "󰍛"
+    },
+
+    "custom/mpd": {
+        "format": "♪ {text}",
+        "interval": 1,
+        "exec": "~/.config/waybar/scripts/mpd_status.sh",
+        "return-type": "json",
+        "on-click": "mpc toggle",
+        "on-click-middle": "mpc stop",
+        "on-scroll-up": "mpc volume +5",
+        "on-scroll-down": "mpc volume -5",
+        "on-click-right": "kitty --class=musicplayer -e ncmpcpp &",
+        "tooltip":true
+    },
+
+    "hyprland/window": {
+        "format": "{title}",
+        "name-type": "class"
+    },
+
+    "backlight": {
+	    "device": "intel_backlight",
+	    "format": "{percent}% {icon}",
+	    "format-icons": ["", ""]
+    },
+
+    "custom/power": {
+	"format" : "⏻ ",
+		"tooltip": false,
+		"menu": "on-click",
+		"menu-file": "~/.config/waybar/power_menu.xml",
+		"menu-actions": {
+			"poweroff": "poweroff",
+			"reboot": "reboot",
+			"suspend": "systemctl suspend"
+		}
+    },
+
+    "privacy": {
+	    "icon-spacing": 4,
+	    "icon-size": 18,
+	    "transition-duration": 250,
+	    "modules": [
+		    {
+			    "type": "screenshare",
+			    "tooltip": true,
+			    "tooltip-icon-size": 24
+            },      
+            {
+			    "type": "audio-out",
+			    "tooltip": true,
+			    "tooltip-icon-size": 24
+		    },
+		    {
+			    "type": "audio-in",
+			    "tooltip": true,
+			    "tooltip-icon-size": 24
+		    }
+	    ]
+    }
+
+}
