@@ -1,0 +1,33 @@
+[global]
+    font = JetBrains Mono 10
+    allow_markup = yes
+    format = "%s\n%b"
+    origin = top-right
+    width = 320
+    padding = 12
+    frame_width = 2
+    frame_color = "#8aadf4"
+    separator_color = "#8aadf4"
+    transparency = 0
+    mouse_left_click = do_action
+    mouse_middle_click = close_current
+    mouse_right_click = close_all
+    dmenu = /bin/false
+
+
+[urgency_low]
+    background = "#1e1e2e"
+    foreground = "#ffffff"
+    timeout = 6
+
+[urgency_normal]
+    background = "#1e1e2e"
+    foreground = "#ffffff"
+    timeout = 10
+
+[urgency_critical]
+    background = "#ff5555"
+    foreground = "#ffffff"
+    timeout = 0
+
+
