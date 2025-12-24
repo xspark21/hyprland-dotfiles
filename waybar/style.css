@@ -1,104 +1,69 @@
+/* --- Tipografía y base --- */
 * {
     font-size:12px;
-    font-family: "Noto Sans CJK";
+    font-family: "SF Pro";
+    font-weight: bold;
 }
 
 window#waybar{
     all:unset;
 }
-.modules-left {
-    margin: 2px 0 2px 0;
-    padding: 0 5px 0 5px;
-    border-radius:10px;
-    background-color: #000000;
-}
-.modules-center {
-    margin: 2px 0 2px 0;
-    font-size:1px;
-    border-radius:10px;
-    background-color: #000000;
-}
+
+/* --- Contenedores principales --- */
+.modules-left,
+.modules-center,
 .modules-right {
-    margin: 2px 0 2px 0;
-    padding: 0 5px 0 5px;
+    margin: 2px 0;
+    padding: 0 5px;
     border-radius:10px;
-    background-color: #000000;
+    background-color: #121212;
 }
 
-#clock:hover, #custom-pacman:hover, #custom-notification:hover,#bluetooth:hover,#network:hover,#battery:hover, #cpu:hover,#memory:hover,#temperature:hover{
-    transition: all .3s ease;
+/* --- Hover global refinado y unificado --- */
+#clock:hover, #custom-pacman:hover, #custom-notification:hover,
+#bluetooth:hover,#network:hover,#battery:hover,
+#cpu:hover,#memory:hover,#temperature:hover {
+    transition: all .25s ease;
     color:#ea1515;
+    text-shadow: 0px 0px 2px rgba(234, 21, 21, .5);
 }
-#clock{ 
+
+/* --- Módulo Clock --- */
+#clock { 
     font-weight: bold;
     padding: 0px 5px;
     color: #f1f1f1;
-    transition: all .3s ease;
+    transition: all .25s ease;
 }
 
+/* --- Workspaces Refinados --- */
 #workspaces button {
     all:unset;
-    padding: 0px 5px;
-    color: #707070;
+    padding: 0 3px;
+    color: #969696;
     transition: all .2s ease;
 }
+
 #workspaces button:hover {
-    color:rgba(0,0,0,0);
-    border: none;
-    text-shadow: 0px 0px 1.5px rgba(0, 0, 0, .5);
-    transition: all 1s ease;
+    color: #ba0d0d;
 }
+
 #workspaces button.active {
     color: #ffffff;
-    border: none;
-    text-shadow: 0px 0px 2px rgba(0, 0, 0, .5);
 }
+
 #workspaces button.empty {
-    color: rgba(0,0,0,0);
-    border: none;
-    text-shadow: 0px 0px 1.5px rgba(0, 0, 0, .2);
+    color: #000000;
 }
-#workspaces button.empty:hover {
-    color: rgba(0,0,0,0);
-    border: none;
-    text-shadow: 0px 0px 1.5px rgba(0, 0, 0, .5);
-    transition: all 1s ease;
-}
-#workspaces button.empty.active {
-    color: #ffffff;
-    border: none;
-    text-shadow: 0px 0px 2px rgba(0, 0, 0, .5);
-}
-#bluetooth{ 
+
+/* --- Iconos básicos (bluetooth, net, etc) --- */
+#bluetooth, #network, #pulseaudio, #battery, #cpu, #memory {
     font-weight: bold;
     padding: 0px 5px;
-    transition: all .3s ease;
     color:#F1F1F1;
-
 }
-#network{
-    font-weight: bold;
-    padding: 0px 5px;
-    transition: all .3s ease;
-    color:#F1F1F1;
 
-}
-#pulseaudio {
-    padding: 0 3px 0 8px;
-    font-size: 12px;
-    font-weight: bold;
-    transition: none;
-    color: #F1F1F1;
-	
-}
-#battery{
-    font-weight: bold;
-    padding: 0px 5px;
-    transition: all .3s ease;
-    color:#F1F1F1;
-
-
-}
+/* --- Batería --- */
 #battery.charging {
     color: #26A65B;
 }
@@ -109,74 +74,39 @@ window#waybar{
 
 #battery.critical:not(.charging) {
     color: #f53c3c;
-    animation-name: blink;
-    animation-duration: 0.5s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-    animation-direction: alternate;
+    animation: blink 0.5s linear infinite alternate;
 }
 
-#custom-expand:hover{
-    color:rgba(255,255,255,.2);
-    text-shadow: 0px 0px 2px rgba(255, 255, 255, .5);
-}
-#cpu,#memory{
-    padding: 0px 5px;
-    transition: all .3s ease; 
-    color:#F1F1F1;
-}
-
-#window {
-    font-family: 'JetBrains Mono Nerd Font', monospace;
-    font-weight: bold;
-    color: #ea1515;
-    background: transparent;
-    opacity: 1;
-    margin: 4px 4px 4px 0px;
-    padding-left: 4px;
-    padding-right: 4px;
+/* ============================================================
+   ★★ NUEVO MÓDULO MPD — Elegante, Minimalista y Más Coherente ★★
+   ============================================================ */
+/* MPD */
+#mpd {
+    padding: 0px 10px;
+    font-size: 12px;
+    color: #cdd6f4;
 }
 
-menu {
-	border-radius: 15px;
-	background: #000000;
-	color: #ffffff;
-}
-menuitem {
-	border-radius: 15px;
+#mpd.playing {
+    color: #a6e3a1;
 }
 
-#custom-mpd.playing {
-    background-color: #182c2b;
-    color: #d5d5d5;
-    padding-right: 5px;
-    border-radius:5px;
+#mpd.paused {
+    color: #f9e2af;
 }
 
-#custom-mpd.paused {
-    background-color: #000000;
-    padding-right: 5px;
-    color: #d0d0d0;
+#mpd.stopped {
+    color: #f38ba8;
 }
 
-#custom-mpd.stopped {
-    background-color: #e74c3c;
-    color: #ffffff;
+
+/* Soft pulse animation for playing (subtle) */
+@keyframes softpulse {
+    from { opacity: .88; }
+    to   { opacity: 1; }
 }
 
-#custom-mpd.offline {
-    background-color: #95a5a6;
-    color: #ffffff;
+#mpd.playing {
+    animation: softpulse 1.4s ease-in-out infinite alternate;
 }
 
-#custom-mpd.error {
-    background-color: #c0392b;
-    color: #ffffff;
-    padding: 0 10px;
-    border-radius: 5px;
-}
-
-@keyframes pulse {
-    from { opacity: 0.8; }
-    to { opacity: 1; }
-}

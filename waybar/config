@@ -1,32 +1,31 @@
+
 {
     
     "layer": "bottom",
     "position": "top",
     "reload_style_on_change": true,
-
-
+ 
     "modules-left": [
-        "custom/mpd",
-        "custom/visualizer",
-        "hyprland/window",
-        "privacy"
+    "mpd",
+    "hyprland/window",
     ],
+
     
     "modules-center": [
+        "clock",
         "hyprland/workspaces"
     ],
     
     "modules-right": [
-        "backlight",
+        "custom/todo",
         "cpu",
         "memory",
         "temperature",
         "bluetooth",
         "pulseaudio",
-        "clock",
         "network",
         "battery",
-        "custom/power"
+        "custom/power",
     ],
 
 
@@ -44,12 +43,12 @@
     },
 
     "clock": {
-        "format": "{:%I:%M:%S %p} ",
+                "format": "{:%a %d %b  %H:%M}",
         "interval": 1,   
-        "tooltip-format": "<tt>{calendar}</tt>",
+        "tooltip-format": "<tt><big>{calendar}</big></tt>",
         "calendar": {
             "format": {
-                "today": "<span color='#fAfBfC'><b>{}</b></span>"
+                "today": "<span color='#ba0d0d'><b>{}</b></span>"
             }
         },
         "actions": {
@@ -122,19 +121,35 @@
     "memory": {
         "format": "󰍛"
     },
+   
+"mpd": {
+    "interval": 1,
+    "format": "{stateIcon} {title}",
+    "format-stopped": "  -",
+    "format-disconnected": "󰝛  MPD Off",
+    "max-length": 40,
 
-    "custom/mpd": {
-        "format": "♪ {text}",
-        "interval": 1,
-        "exec": "~/.config/waybar/scripts/mpd_status.sh",
-        "return-type": "json",
-        "on-click": "mpc toggle",
-        "on-click-middle": "mpc stop",
-        "on-scroll-up": "mpc volume +5",
-        "on-scroll-down": "mpc volume -5",
-        "on-click-right": "kitty --class=musicplayer -e ncmpcpp &",
-        "tooltip":true
+    "title-len": 40,
+    "artist-len": 30,
+
+    "consume-icons": {
+        "on": ""
     },
+
+    "state-icons": {
+        "playing": "",
+        "paused": "",
+        "stopped": ""
+    },
+
+    "on-click": "mpc toggle",
+    "on-click-right": "mpc next",
+    "on-click-middle": "mpc stop",
+
+    "on-scroll-up": "mpc volume +5",
+    "on-scroll-down": "mpc volume -5"
+}
+   ,
 
     "hyprland/window": {
         "format": "{title}",
@@ -180,6 +195,18 @@
 			    "tooltip-icon-size": 24
 		    }
 	    ]
-    }
+    },
+
+ "backlight": {
+    "device": "intel_backlight",
+    "format": "󰃠 {percent}%",
+    "format-icons": [
+        "󰃞", "󰃟", "󰃠"
+    ],
+    "on-scroll-up": "brightnessctl set +5%",
+    "on-scroll-down": "brightnessctl set 5%-",
+    "on-click": "brightnessctl set 100%",
+    "on-click-right": "brightnessctl set 10%"
+}
 
 }
