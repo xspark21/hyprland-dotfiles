@@ -16,7 +16,7 @@ window#waybar{
     margin: 2px 0;
     padding: 0 5px;
     border-radius:10px;
-    background-color: #121212;
+    background-color: #141414;
 }
 
 /* --- Hover global refinado y unificado --- */
@@ -75,6 +75,13 @@ window#waybar{
 #battery.critical:not(.charging) {
     color: #f53c3c;
     animation: blink 0.5s linear infinite alternate;
+}
+
+/* --- Privacy ---*/
+
+#privacy {
+    padding-left: 6;
+    color: #b50000;
 }
 
 /* ============================================================

@@ -8,6 +8,7 @@
     "modules-left": [
     "mpd",
     "hyprland/window",
+    "privacy"
     ],
 
     
@@ -45,7 +46,7 @@
     "clock": {
                 "format": "{:%a %d %b  %H:%M}",
         "interval": 1,   
-        "tooltip-format": "<tt><big>{calendar}</big></tt>",
+        "tooltip-format": "<small>{:%Y %B}</small>\n<tt><big>{calendar}</big></tt>",
         "calendar": {
             "format": {
                 "today": "<span color='#ba0d0d'><b>{}</b></span>"
@@ -176,37 +177,25 @@
 
     "privacy": {
 	    "icon-spacing": 4,
-	    "icon-size": 18,
+	    "icon-size": 12,
 	    "transition-duration": 250,
 	    "modules": [
 		    {
 			    "type": "screenshare",
 			    "tooltip": true,
-			    "tooltip-icon-size": 24
+			    "tooltip-icon-size": 12
             },      
             {
 			    "type": "audio-out",
 			    "tooltip": true,
-			    "tooltip-icon-size": 24
+			    "tooltip-icon-size": 12
 		    },
 		    {
 			    "type": "audio-in",
 			    "tooltip": true,
-			    "tooltip-icon-size": 24
+			    "tooltip-icon-size": 12
 		    }
 	    ]
-    },
-
- "backlight": {
-    "device": "intel_backlight",
-    "format": "󰃠 {percent}%",
-    "format-icons": [
-        "󰃞", "󰃟", "󰃠"
-    ],
-    "on-scroll-up": "brightnessctl set +5%",
-    "on-scroll-down": "brightnessctl set 5%-",
-    "on-click": "brightnessctl set 100%",
-    "on-click-right": "brightnessctl set 10%"
-}
+    }
 
 }

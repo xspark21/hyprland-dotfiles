@@ -1,0 +1,94 @@
+/* =====================================================
+   Hypr Minimal Dark – GTK4
+   ===================================================== */
+
+* {
+  border-radius: 6px;
+  font-family: sans-serif;
+  font-size: 10.5pt;
+}
+
+/* ---------- Window ---------- */
+
+window,
+.background {
+  background-color: rgba(10, 9, 14, 0.80);
+  color: #EDEDED;
+}
+
+/* ---------- Headerbar ---------- */
+
+headerbar {
+  background-color: rgba(22, 23, 23, 0.90);
+  color: #FFFFFF;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* ---------- Buttons ---------- */
+
+button {
+  background-color: #121212;
+  color: #EDEDED;
+  border: 1px solid #1f1f1f;
+  padding: 6px 12px;
+}
+
+button:hover {
+  background-color: #1f1f1f;
+}
+
+button:active {
+  background-color: #161717;
+}
+
+button:disabled {
+  background-color: #0E0E0E;
+  color: #434343;
+}
+
+button.destructive {
+  background-color: #D10028;
+  color: #FFFFFF;
+}
+
+/* ---------- Inputs ---------- */
+
+entry {
+  background-color: #0E0E0E;
+  border: 1px solid #1f1f1f;
+  padding: 6px;
+}
+
+entry:focus {
+  border-color: #D10028;
+}
+
+/* ---------- Lists ---------- */
+
+listview,
+list {
+  background-color: rgba(18, 18, 18, 0.85);
+}
+
+row:selected {
+  background-color: rgba(209, 0, 40, 0.25);
+}
+
+/* ---------- Popovers ---------- */
+
+popover {
+  background-color: rgba(18, 18, 18, 0.88);
+  border: 1px solid #1f1f1f;
+}
+
+/* ---------- Scrollbar ---------- */
+
+scrollbar slider {
+  background-color: #1f1f1f;
+  border-radius: 8px;
+}
+
+scrollbar slider:hover {
+  background-color: #434343;
+}
+

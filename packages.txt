@@ -1,0 +1,14 @@
+hyprland
+waybar
+nvim
+rofi
+dunst
+kitty
+wl-clipboard
+zsh
+swww
+xdg-desktop-portal-hyprland
+waypaper
+rmpc
+ranger
+ttf-jetbrains-mono-nerd

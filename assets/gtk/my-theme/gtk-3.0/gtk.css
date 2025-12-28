@@ -1,0 +1,167 @@
+/* ---------- Base ---------- */
+
+* {
+  border-radius: 6px;
+  font-family: sans-serif;
+  font-size: 10.5pt;
+}
+
+/* ---------- Window ---------- */
+
+window,
+.background {
+  background-color: rgba(10, 9, 14, 0.80);
+  color: #EDEDED;
+}
+
+/* ---------- Text ---------- */
+
+label,
+text,
+entry {
+  color: #DADADA;
+}
+
+label:disabled {
+  color: #434343;
+}
+
+/* Secondary text */
+.dim-label {
+  color: #434343;
+}
+
+/* ---------- Headerbar ---------- */
+
+headerbar {
+  background-color: rgba(22, 23, 23, 0.90);
+  color: #FFFFFF;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+headerbar title {
+  color: #FFFFFF;
+  font-weight: bold;
+}
+
+/* ---------- Buttons ---------- */
+
+button {
+  background-color: #121212;
+  color: #EDEDED;
+  border: 1px solid #1f1f1f;
+  padding: 6px 12px;
+}
+
+button:hover {
+  background-color: #1f1f1f;
+}
+
+button:active {
+  background-color: #161717;
+}
+
+button:disabled {
+  background-color: #0E0E0E;
+  color: #434343;
+}
+
+/* Destructive / cancel */
+button.destructive {
+  background-color: #D10028;
+  color: #FFFFFF;
+}
+
+/* ---------- Entries / Inputs ---------- */
+
+entry {
+  background-color: #0E0E0E;
+  border: 1px solid #1f1f1f;
+  padding: 6px;
+}
+
+entry:focus {
+  border-color: #D10028;
+}
+
+/* ---------- Lists & Views ---------- */
+
+list,
+listview,
+treeview,
+viewport {
+  background-color: rgba(18, 18, 18, 0.85);
+}
+
+row:selected,
+treeview:selected {
+  background-color: rgba(209, 0, 40, 0.25);
+  color: #FFFFFF;
+}
+
+/* ---------- Popovers / Menus ---------- */
+
+popover,
+menu,
+.dialog {
+  background-color: rgba(18, 18, 18, 0.88);
+  border: 1px solid #1f1f1f;
+}
+
+menuitem {
+  padding: 6px 12px;
+}
+
+menuitem:hover {
+  background-color: rgba(31, 31, 31, 0.8);
+}
+
+/* ---------- Scrollbars ---------- */
+
+scrollbar {
+  background-color: transparent;
+}
+
+scrollbar slider {
+  background-color: #1f1f1f;
+  border-radius: 8px;
+}
+
+scrollbar slider:hover {
+  background-color: #434343;
+}
+
+/* ---------- Checkboxes & Switches ---------- */
+
+check,
+radio,
+switch {
+  background-color: #121212;
+}
+
+switch:checked {
+  background-color: #D10028;
+}
+
+/* ---------- Tooltips ---------- */
+
+tooltip {
+  background-color: #121212;
+  color: #FFFFFF;
+  border-radius: 6px;
+  padding: 6px;
+}
+
+/* ---------- Separators ---------- */
+
+separator {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* ---------- Selection ---------- */
+
+selection {
+  background-color: rgba(209, 0, 40, 0.35);
+  color: #FFFFFF;
+}
+
