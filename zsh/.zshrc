@@ -28,36 +28,6 @@ function parse_git_branch {
 
 PROMPT='%F{#6570A0}%n%f%F{#5E72CA}@%m%f %F{white}%~%f%${vcs_info_msg_0_} %F{white}$(parse_git_branch)%f %(?.%B%F{#7A7AF}$.%F{#5E6A75}$)%f%b '
 
-
-
-# Path to your Oh My Zsh installation.
-export ZSH="$HOME/.oh-my-zsh"
-export EDITOR=nvim
-export VISUAL=nvim
-
-
-ENABLE_CORRECTION = true
-
-plugins=(
-	git
-	zsh-autosuggestions
-	zsh-syntax-highlighting
-	zsh-history-substring-search
-)
-
-source $ZSH/oh-my-zsh.sh
-
-
-function parse_git_branch {
-	local branch
-	branch=$(git symbolic-ref --short HEAD 2> /dev/null)
-	if [ -n "$branch" ]; then
-		echo " [$branch]"
-	fi
-}
-
-PROMPT='%F{#6570A0}%n%f%F{#5E72CA}@%m%f %F{white}%~%f%1 %F{white}$(parse_git_branch)%f %(?.%B%F{#7A7AF}$.%F{#5E6A75}$)%f%b '
-
 ##########################################################
 # script para poder conectarme a wifi mas facilmente ToT #
 ##########################################################
