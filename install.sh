@@ -29,8 +29,13 @@ THEMES_DST="$HOME/.themes"
 
 # ----------- packages ----------
 if ask "¿Instalar paquetes necesarios?"; then
-  sudo pacman -Syu --needed --noconfirm $(< packages.txt)
+  echo "Actualizando sistema e instalando paquetes..."
+
+  if ! sudo pacman -Syu --needed --noconfirm $(< packages.txt); then
+    echo "⚠ pacman terminó con advertencias, continuando instalación..."
+  fi
 fi
+
 
 # ----------- configs ----------
 echo "Copiando configuraciones a ~/.config"
@@ -140,8 +145,13 @@ if ask "¿Configurar Neovim (vim-plug + plugins)?"; then
       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   fi
 
+  echo "Instalando plugins de Neovim..."
+  nvim --headless +'PlugInstall --sync' +qa
+
+  echo "Inicializando Neovim (primer arranque)..."
+  nvim --headless +qa
+
   echo "Instalando plugins de Neovim (headless)..."
-  nvim --headless +PlugInstall +qa
 
   echo "Neovim listo."
 fi
