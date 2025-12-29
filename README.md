@@ -29,14 +29,13 @@ Clone the repository:
 ```bash
 git clone https://github.com/xspark21/hyprland-dotfiles.git
 ```
-
-Copy only the configs you want into `~/.config`:
+Then use the script
 
 ```bash
-cp -r hypr waybar kitty nvim ~/.config/
+./install.sh
 ```
 
-it's recommended to back up your existing configs before copying
+I recommend to back up your existing configs if there're 
 
 There's no `install.sh` yet
 
@@ -46,8 +45,8 @@ There's no `install.sh` yet
 
 - [x] Initial upload
 - [x] Add configs for daily-use applications
-- [ ] Set GTK3 theme
-- [ ] Add install script
+- [x] Set GTK3 theme
+- [x] Add install script
 - [ ] my own modules (I HATE THE CALENDAR)
 - [ ] someone like it!
 
