@@ -12,3 +12,5 @@ waypaper
 rmpc
 ranger
 ttf-jetbrains-mono-nerd
+lua
+luajit
