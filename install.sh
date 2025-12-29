@@ -26,7 +26,6 @@ ASSETS_SRC="$DOTDIR/assets"
 WALLPAPER_DST="$HOME/images/wallpapers"
 THEMES_DST="$HOME/.themes"
 
-
 # ----------- packages ----------
 if ask "¿Instalar paquetes necesarios?"; then
   echo "Actualizando sistema e instalando paquetes..."
@@ -36,6 +35,15 @@ if ask "¿Instalar paquetes necesarios?"; then
   fi
 fi
 
+# ----------- AUR ----------
+if command -v yay &>/dev/null; then
+  if [[ -f aur-packages.txt ]]; then
+    echo "Instalando paquetes AUR..."
+    yay -S --needed --noconfirm $(< aur-packages.txt)
+  fi
+else
+  echo "⚠ yay no está instalado, saltando AUR"
+fi
 
 # ----------- configs ----------
 echo "Copiando configuraciones a ~/.config"
@@ -53,7 +61,6 @@ if ask "¿Instalar wallpapers?"; then
   echo "Instalando wallpapers..."
   mkdir -p "$WALLPAPER_DST"
   cp -r "$ASSETS_SRC/wallpapers/"* "$WALLPAPER_DST/"
-  echo "Wallpapers copiados a $WALLPAPER_DST"
 fi
 
 # ----------- GTK Themes ----------
@@ -61,20 +68,16 @@ if ask "¿Instalar temas GTK?"; then
   echo "Instalando temas GTK..."
   mkdir -p "$THEMES_DST"
   cp -r "$ASSETS_SRC/gtk/"* "$THEMES_DST/"
-  echo "Temas instalados en ~/.themes"
 fi
+
 # ----------- ZSH / OH-MY-ZSH ----------
 if ask "¿Instalar y configurar Zsh + Oh My Zsh?"; then
 
-  # instalar zsh si no existe
   if ! command -v zsh &>/dev/null; then
-    echo "Instalando zsh..."
     sudo pacman -S --needed --noconfirm zsh
   fi
 
-  # instalar oh-my-zsh
   if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
-    echo "Instalando Oh My Zsh..."
     RUNZSH=no CHSH=no sh -c \
       "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
   fi
@@ -82,10 +85,8 @@ if ask "¿Instalar y configurar Zsh + Oh My Zsh?"; then
   ZSH_CUSTOM="$HOME/.oh-my-zsh/custom"
   PLUGINS_FILE="$DOTDIR/zsh/plugins.txt"
 
-  # instalar plugins desde plugins.txt
   if [[ -f "$PLUGINS_FILE" ]]; then
     echo "Instalando plugins de Zsh..."
-
     while read -r plugin; do
       [[ -z "$plugin" ]] && continue
 
@@ -95,72 +96,44 @@ if ask "¿Instalar y configurar Zsh + Oh My Zsh?"; then
           ;;
         *)
           if [[ ! -d "$ZSH_CUSTOM/plugins/$plugin" ]]; then
-            echo " - Instalando $plugin"
             git clone --depth=1 \
               "https://github.com/zsh-users/$plugin" \
               "$ZSH_CUSTOM/plugins/$plugin"
-          else
-            echo " - $plugin ya instalado"
           fi
           ;;
       esac
     done < "$PLUGINS_FILE"
   fi
 
-  echo "Copiando .zshrc"
   cp "$DOTDIR/zsh/.zshrc" "$HOME/.zshrc"
 
-  # cambiar shell por defecto
   if [[ "$SHELL" != "$(which zsh)" ]]; then
-    echo "Cambiando shell por defecto a zsh"
     chsh -s "$(which zsh)"
   fi
 fi
 
-
-# ----------- MPD (USER) ----------
+# ----------- MPD ----------
 if ask "¿Configurar MPD como servicio de usuario?"; then
   systemctl --user enable mpd.service
   systemctl --user restart mpd.service
-  echo "MPD ahora corre SOLO para el usuario"
 fi
 
-# ----------- Neovim -------------
-if ask "¿Configurar Neovim (vim-plug + plugins)?"; then
+# ----------- Neovim ----------
+if ask "¿Configurar Neovim (Lazy.nvim)?"; then
   echo "Configurando Neovim..."
-
-  # deps mínimas para coc.nvim
-  if ! command -v node &>/dev/null; then
-    echo "Instalando nodejs y npm (requerido por coc.nvim)"
-    sudo pacman -S --needed --noconfirm nodejs npm
-  fi
 
   mkdir -p "$HOME/.config/nvim"
   cp -r "$CONFIG_SRC/nvim/"* "$HOME/.config/nvim/"
 
-  # instalar vim-plug si no existe
-  if [[ ! -f "$HOME/.local/share/nvim/site/autoload/plug.vim" ]]; then
-    echo "Instalando vim-plug..."
-    curl -fLo "$HOME/.local/share/nvim/site/autoload/plug.vim" --create-dirs \
-      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  fi
-
-  echo "Instalando plugins de Neovim..."
-  nvim --headless +'PlugInstall --sync' +qa
-
-  echo "Inicializando Neovim (primer arranque)..."
-  nvim --headless +qa
-
-  echo "Instalando plugins de Neovim (headless)..."
-
-  echo "Neovim listo."
+  echo "Inicializando Neovim (Lazy)..."
+  nvim --headless "+Lazy! sync" +qa || \
+    echo "⚠ Lazy falló, se instalará al abrir nvim"
 fi
 
-# ----------- cleanup ------------
+# ----------- cleanup ----------
 if ask "¿Eliminar el repositorio luego de instalar?"; then
   cd ..
   rm -rf "$DOTDIR"
-  echo "Repo eliminado"
 fi
 
 echo

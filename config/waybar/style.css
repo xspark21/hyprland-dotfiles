@@ -1,3 +1,4 @@
+
 /* --- Tipografía y base --- */
 * {
     font-size:12px;
@@ -13,20 +14,33 @@ window#waybar{
 .modules-left,
 .modules-center,
 .modules-right {
-    margin: 2px 0;
-    padding: 0 5px;
-    border-radius:10px;
-    background-color: #141414;
+    padding: 0 6px;
+    background-color: #010101;
 }
 
+.modules-left {
+    border-radius: 0px 0px 12px 0px;
+}
+
+.modules-center {
+    border-radius: 0px 0px 12px 12px;  
+}
+
+.modules-right {
+    border-radius: 0px 0px 0px 12px;
+}
+
+
+
+
 /* --- Hover global refinado y unificado --- */
-#clock:hover, #custom-pacman:hover, #custom-notification:hover,
-#bluetooth:hover,#network:hover,#battery:hover,
+#clock:hover,#bluetooth:hover,#network:hover,#battery:hover,
 #cpu:hover,#memory:hover,#temperature:hover {
     transition: all .25s ease;
     color:#ea1515;
     text-shadow: 0px 0px 2px rgba(234, 21, 21, .5);
 }
+
 
 /* --- Módulo Clock --- */
 #clock { 
@@ -36,26 +50,36 @@ window#waybar{
     transition: all .25s ease;
 }
 
-/* --- Workspaces Refinados --- */
-#workspaces button {
-    all:unset;
-    padding: 0 3px;
-    color: #969696;
-    transition: all .2s ease;
+
+/* Fondo del módulo */
+#workspaces {
+    background: #000000;
+    padding: 0 6px;
+    border-radius: 6px;
 }
 
+/* Estado base */
+#workspaces button {
+    all: unset;
+    padding: 0 3px;
+    color: #434343; /* empty / inactive */
+    transition: color .2s ease;
+}
+
+/* Hover (aplica a TODOS, incluso active) */
 #workspaces button:hover {
     color: #ba0d0d;
 }
 
+/* Workspace activo (SIEMPRE gana) */
 #workspaces button.active {
     color: #ffffff;
 }
 
-#workspaces button.empty {
+/* Workspace vacío pero NO activo */
+#workspaces button.empty:not(.active) {
     color: #000000;
 }
-
 /* --- Iconos básicos (bluetooth, net, etc) --- */
 #bluetooth, #network, #pulseaudio, #battery, #cpu, #memory {
     font-weight: bold;
@@ -70,6 +94,10 @@ window#waybar{
 
 #battery.warning:not(.charging) {
     color: #ffbe61;
+}
+
+#battery.critical {
+    animation: blink 0.5s linear infinite alternate;
 }
 
 #battery.critical:not(.charging) {

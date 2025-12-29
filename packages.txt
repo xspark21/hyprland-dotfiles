@@ -14,3 +14,7 @@ ranger
 ttf-jetbrains-mono-nerd
 lua
 luajit
+ripgrep
+fd
+tree-sitter
+luarocks

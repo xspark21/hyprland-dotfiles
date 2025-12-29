@@ -18,7 +18,6 @@
     ],
     
     "modules-right": [
-        "custom/todo",
         "cpu",
         "memory",
         "temperature",
@@ -46,7 +45,7 @@
     "clock": {
                 "format": "{:%a %d %b  %H:%M}",
         "interval": 1,   
-        "tooltip-format": "<small>{:%Y %B}</small>\n<tt><big>{calendar}</big></tt>",
+        "tooltip-format": "<tt><big>{calendar}</big></tt>",
         "calendar": {
             "format": {
                 "today": "<span color='#ba0d0d'><b>{}</b></span>"
@@ -67,18 +66,22 @@
         "tooltip-format-ethernet": "{ifname} 🖧 "
     },
 
-	"pulseaudio": {
-    "scroll-step": 5,
-    "format": "{icon} {volume}%",
-    "format-muted": "🔇 {volume}%",
-    "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
-    "on-scroll-up": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+",
-    "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-",
-    "on-click-right": "pavucontrol", 
-    "format-icons": {
-        "default": ["🔈", "🔉", "🔊"]
-    }
-},
+    "pulseaudio": {
+        "scroll-step": 5,
+        "format": "{icon} {volume}%",
+        "format-muted": "󰖁  {volume}%",
+        "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+        "on-scroll-up": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+",
+        "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-",
+        "on-click-right": "pavucontrol",
+        "format-icons": {
+            "default": [
+                "󰕿 ",  
+                "󰖀 ",  
+                "󰕾 "   
+            ]
+        }
+    },
 
     "bluetooth": {
         "format-on": "󰂯",
@@ -124,14 +127,12 @@
     },
    
 "mpd": {
+    "format": "{stateIcon}",
+    "tooltip-format": "{artist} — {title}",
     "interval": 1,
-    "format": "{stateIcon} {title}",
-    "format-stopped": "  -",
+    "max-length": 25,
+    "format-stopped": "",
     "format-disconnected": "󰝛  MPD Off",
-    "max-length": 40,
-
-    "title-len": 40,
-    "artist-len": 30,
 
     "consume-icons": {
         "on": ""
@@ -153,8 +154,8 @@
    ,
 
     "hyprland/window": {
-        "format": "{title}",
-        "name-type": "class"
+        "format": "{class}",
+        "max-length": 25
     },
 
     "backlight": {
