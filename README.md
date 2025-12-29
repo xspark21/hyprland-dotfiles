@@ -37,8 +37,6 @@ Then use the script
 
 I recommend to back up your existing configs if there're 
 
-There's no `install.sh` yet
-
 ---
 
 ## Roadmap
