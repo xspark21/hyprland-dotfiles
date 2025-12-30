@@ -95,8 +95,10 @@ mkdir -p "$CONFIG_DST"
 for dir in "$CONFIG_SRC"/*; do
   name="$(basename "$dir")"
   echo -e "  ${GREEN}→${RESET} $name"
-  rm -rf "$CONFIG_DST/$name"
-  cp -r "$dir" "$CONFIG_DST/"
+  
+  mkdir -p "$CONFIG_DST/$name"
+  rsync -a "$dir/" "$CONFIG_DST/$name/"
+
 done
 ok "Configuraciones copiadas"
 
