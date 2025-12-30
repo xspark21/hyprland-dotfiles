@@ -1,33 +1,75 @@
 [global]
     font = JetBrains Mono 10
-    allow_markup = yes
-    format = "%s\n%b"
+    format = "<b>%s</b>\n%b"
+
     origin = top-right
     width = 320
-    padding = 12
+    padding = 16
+    offset = (10,10)
+
+    transparency = 20
+    corner_radius = 6
+
     frame_width = 2
-    frame_color = "#8aadf4"
-    separator_color = "#8aadf4"
-    transparency = 0
+    frame_color = "#1f1f1f"
+
+    separator_height = 10
+    separator_color = "#00000000"
+
+    show_indicators = no
+    shrink = yes
+    stack_duplicates = true
+    notification_limit = 5
+
     mouse_left_click = do_action
     mouse_middle_click = close_current
     mouse_right_click = close_all
     dmenu = /bin/false
 
 
-[urgency_low]
-    background = "#1e1e2e"
-    foreground = "#ffffff"
+################
+#    RULES     #
+################
+
+[rule]
+    appname = "mpd"
+    urgency = low
+    timeout = 4
+    background = "#121212"
+    foreground = "#434343"
+
+[rule]
+    appname = "firefox"
+    urgency = normal
     timeout = 6
 
-[urgency_normal]
-    background = "#1e1e2e"
-    foreground = "#ffffff"
-    timeout = 10
+[rule]
+    appname = "kitty"
+    urgency = low
+    timeout = 3
 
-[urgency_critical]
-    background = "#ff5555"
-    foreground = "#ffffff"
+[rule]
+    urgency = critical
+    frame_color = "#D10028"
     timeout = 0
 
 
+################
+#  URGENCIES   #
+################
+
+[urgency_low]
+    background = "#121212"
+    foreground = "#434343"
+    timeout = 5
+
+[urgency_normal]
+    background = "#181818"
+    foreground = "#d0d0d0"
+    timeout = 8
+
+[urgency_critical]
+    background = "#0A090E"
+    foreground = "#ffffff"
+    frame_color = "#D10028"
+    timeout = 0
