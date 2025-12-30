@@ -1,52 +1,60 @@
--- ===== BASICS =====
-vim.opt.number = true
-vim.opt.relativenumber = true
-vim.opt.mouse = "a"
-vim.opt.encoding = "utf-8"
-vim.opt.showcmd = true
-vim.opt.showmatch = true
-vim.opt.clipboard = "unnamedplus"
+require("lazy").setup({
 
-vim.opt.tabstop = 4
-vim.opt.shiftwidth = 4
-vim.opt.expandtab = true
-vim.opt.smartindent = true
-vim.opt.wrap = true
+  -- ===== UI =====
+  {
+    "nvim-lualine/lualine.nvim",
+    lazy = false,
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    config = function()
+      require("lualine").setup({
+        options = {
+          icons_enabled = true,
+          theme = "auto",
+        },
+      })
+    end,
+  },
 
--- ===== SEARCH =====
-vim.opt.ignorecase = true
-vim.opt.smartcase = true
-vim.opt.incsearch = true
-vim.opt.hlsearch = true
+  { "nvim-tree/nvim-web-devicons", lazy = true },
 
--- Clear search highlight
-vim.keymap.set("n", "<Esc><Esc>", ":nohlsearch<CR>", { silent = true })
+  -- ===== THEMES =====
+  {
+    "navarasu/onedark.nvim",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      require("onedark").setup({
+        style = "dark",
+        transparent = true,
+      })
+      require("onedark").load()
+    end,
+  },
 
--- Leader
-vim.g.mapleader = " "
+  { "catppuccin/nvim", name = "catppuccin", lazy = true },
 
--- ===== KEYMAPS =====
-vim.keymap.set("n", ";", ":")
-vim.keymap.set("v", ";", ":")
+  -- ===== LSP / AUTOCOMPLETE =====
+  {
+    "neoclide/coc.nvim",
+    branch = "release",
+    event = "InsertEnter",
+  },
 
-vim.keymap.set("n", "<C-s>", ":w<CR>")
-vim.keymap.set("i", "<C-s>", "<Esc>:w<CR>a")
-vim.keymap.set("n", "<C-q>", ":q<CR>")
-vim.keymap.set("n", "<C-x>", ":wq<CR>")
+  -- ===== FILES =====
+  {
+    "preservim/nerdtree",
+    cmd = { "NERDTreeToggle", "NERDTreeFind" },
+  },
 
-vim.keymap.set("n", "<leader>r", ":source $MYVIMRC<CR>")
+  { "ctrlpvim/ctrlp.vim", cmd = "CtrlP" },
 
--- Movement
-vim.keymap.set("n", "<C-j>", "5j")
-vim.keymap.set("n", "<C-k>", "5k")
+  -- ===== DEV =====
+  { "rust-lang/rust.vim", ft = "rust" },
 
-vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
-vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+  { "jiangmiao/auto-pairs", event = "InsertEnter" },
 
--- Splits
-vim.keymap.set("n", "<leader>v", ":vsplit<CR>")
-vim.keymap.set("n", "<leader>h", ":split<CR>")
+  { "tpope/vim-commentary", keys = { "gc", "<C-/>" } },
 
--- ===== PLUGINS =====
-require("plugins")
-
+}, {
+  checker = { enabled = false },
+})

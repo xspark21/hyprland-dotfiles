@@ -1,4 +1,5 @@
 
+
 /* --- Tipografía y base --- */
 * {
     font-size:12px;
@@ -30,7 +31,16 @@ window#waybar{
     border-radius: 0px 0px 0px 12px;
 }
 
+/* Sombras sutiles para profundidad */
+.modules-left, .modules-center, .modules-right {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
 
+/* Separadores entre módulos */
+#cpu, #memory, #temperature, #bluetooth {
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    margin-right: 2px;
+}
 
 
 /* --- Hover global refinado y unificado --- */
@@ -50,36 +60,36 @@ window#waybar{
     transition: all .25s ease;
 }
 
-
-/* Fondo del módulo */
 #workspaces {
-    background: #000000;
-    padding: 0 6px;
+    background: #141414;
     border-radius: 6px;
+    padding: 0 4px;
 }
 
-/* Estado base */
 #workspaces button {
     all: unset;
     padding: 0 3px;
-    color: #434343; /* empty / inactive */
+    color: #000000;
     transition: color .2s ease;
 }
 
-/* Hover (aplica a TODOS, incluso active) */
-#workspaces button:hover {
-    color: #ba0d0d;
-}
-
-/* Workspace activo (SIEMPRE gana) */
+/* Actual (vacío o no) */
 #workspaces button.active {
     color: #ffffff;
 }
 
-/* Workspace vacío pero NO activo */
-#workspaces button.empty:not(.active) {
-    color: #000000;
+/* Con apps pero no actual */
+#workspaces button:not(.active):not(.empty) {
+    color: #434343;
 }
+
+/* Hover → TODOS */
+#workspaces button:hover,
+#workspaces button:hover * {
+    color: #ba0d0d;
+}
+
+
 /* --- Iconos básicos (bluetooth, net, etc) --- */
 #bluetooth, #network, #pulseaudio, #battery, #cpu, #memory {
     font-weight: bold;
@@ -108,7 +118,7 @@ window#waybar{
 /* --- Privacy ---*/
 
 #privacy {
-    padding-left: 6;
+    padding-left: 6px;
     color: #b50000;
 }
 
@@ -134,6 +144,11 @@ window#waybar{
     color: #f38ba8;
 }
 
+#mpd:hover {
+    transition: all .25s ease;
+    color: #ea1515;
+    text-shadow: 0px 0px 2px rgba(234, 21, 21, .5);
+}
 
 /* Soft pulse animation for playing (subtle) */
 @keyframes softpulse {

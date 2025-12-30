@@ -114,6 +114,9 @@ fi
 
 # ----------- MPD ----------
 if ask "¿Configurar MPD como servicio de usuario?"; then
+  mkdir -p "$HOME/.config/mpd"
+  mkdir -p "$HOME/.local/share/mpd"
+  mkdir -p "$HOME/.cache/mpd"
   systemctl --user enable mpd.service
   systemctl --user restart mpd.service
 fi

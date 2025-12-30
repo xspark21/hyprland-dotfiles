@@ -25,16 +25,16 @@
         "pulseaudio",
         "network",
         "battery",
-        "custom/power",
+        "custom/power"
     ],
 
 
     "hyprland/workspaces": {
         "format": "{icon}",
         "format-icons": {
-            "active": "<span font = '12'></span>",
-            "default": "<span font = '12'></span>",                
-	        "empty": "<span font = '12'></span>"
+            "active": "<span font='12'></span>",
+            "default": "<span font='12'></span>",
+            "empty": "<span font='12'></span>"
         },
         
         "persistent-workspaces": {
@@ -197,6 +197,12 @@
 			    "tooltip-icon-size": 12
 		    }
 	    ]
+    },
+    "temperature": {
+        "format": "{temperatureC}°C",
+        "critical-threshold": 80,
+        "format-critical": " {temperatureC}°C",
+        "tooltip": false
     }
 
 }
