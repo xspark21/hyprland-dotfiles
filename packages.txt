@@ -6,7 +6,7 @@ dunst
 kitty
 wl-clipboard
 zsh
-swww
+awww
 xdg-desktop-portal-hyprland
 waypaper
 rmpc
@@ -18,3 +18,4 @@ ripgrep
 fd
 tree-sitter
 luarocks
+rsync
