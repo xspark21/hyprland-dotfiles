@@ -17,30 +17,10 @@ error()  { echo -e "${RED}✖${RESET} $1"; }
 askmsg() { echo -e "${CYAN}?${RESET} $1"; }
 
 # ----------- header -----------
-cat <<'EOF'
-                                                                                 /$$        /$$$$$$    /$$                                                                                      
-                                                                                | $$       /$$__  $$ /$$$$                                                                                      
-                               /$$   /$$  /$$$$$$$  /$$$$$$   /$$$$$$   /$$$$$$ | $$   /$$|__/  \ $$|_  $$                                                                                      
- /$$$$$$ /$$$$$$ /$$$$$$      |  $$ /$$/ /$$_____/ /$$__  $$ |____  $$ /$$__  $$| $$  /$$/  /$$$$$$/  | $$         /$$$$$$ /$$$$$$ /$$$$$$                                                      
-|______/|______/|______/       \  $$$$/ |  $$$$$$ | $$  \ $$  /$$$$$$$| $$  \__/| $$$$$$/  /$$____/   | $$        |______/|______/|______/                                                      
-                                >$$  $$  \____  $$| $$  | $$ /$$__  $$| $$      | $$_  $$ | $$        | $$                                                                                      
-                               /$$/\  $$ /$$$$$$$/| $$$$$$$/|  $$$$$$$| $$      | $$ \  $$| $$$$$$$$ /$$$$$$                                                                                    
-                              |__/  \__/|_______/ | $$____/  \_______/|__/      |__/  \__/|________/|______/                                                                                    
-                                                  | $$                                                                                                                                          
-                                                  | $$                                                                                                                                          
-                                                  |__/                                                                                                                                          
- /$$       /$$ /$$         /$$     /$$       /$$                 /$$                   /$$     /$$                       /$$                       /$$               /$$ /$$                    
-| $$      |__/| $$        | $$    | $$      |__/                |__/                  | $$    | $$                      |__/                      | $$              | $$| $$                    
-| $$$$$$$  /$$| $$       /$$$$$$  | $$$$$$$  /$$  /$$$$$$$       /$$  /$$$$$$$       /$$$$$$  | $$$$$$$   /$$$$$$        /$$ /$$$$$$$   /$$$$$$$ /$$$$$$    /$$$$$$ | $$| $$  /$$$$$$   /$$$$$$ 
-| $$__  $$| $$| $$      |_  $$_/  | $$__  $$| $$ /$$_____/      | $$ /$$_____/      |_  $$_/  | $$__  $$ /$$__  $$      | $$| $$__  $$ /$$_____/|_  $$_/   |____  $$| $$| $$ /$$__  $$ /$$__  $$
-| $$  \ $$| $$|__/        | $$    | $$  \ $$| $$|  $$$$$$       | $$|  $$$$$$         | $$    | $$  \ $$| $$$$$$$$      | $$| $$  \ $$|  $$$$$$   | $$      /$$$$$$$| $$| $$| $$$$$$$$| $$  \__/
-| $$  | $$| $$            | $$ /$$| $$  | $$| $$ \____  $$      | $$ \____  $$        | $$ /$$| $$  | $$| $$_____/      | $$| $$  | $$ \____  $$  | $$ /$$ /$$__  $$| $$| $$| $$_____/| $$      
-| $$  | $$| $$ /$$        |  $$$$/| $$  | $$| $$ /$$$$$$$/      | $$ /$$$$$$$/        |  $$$$/| $$  | $$|  $$$$$$$      | $$| $$  | $$ /$$$$$$$/  |  $$$$/|  $$$$$$$| $$| $$|  $$$$$$$| $$      
-|__/  |__/|__/|__/         \___/  |__/  |__/|__/|_______/       |__/|_______/          \___/  |__/  |__/ \_______/      |__/|__/  |__/|_______/    \___/   \_______/|__/|__/ \_______/|__/      
-                                                                                                                                                                                                
-                                                                                                                                                                                                
-                                                                                                                                                                                                
-EOF
+echo
+echo -e "${BOLD}${CYAN}hyprland-dotfiles${RESET}  ·  instalador"
+echo -e "${BLUE}────────────────────────────${RESET}"
+echo
 
 # ----------- helpers -----------
 ask() {
@@ -48,6 +28,8 @@ ask() {
   read -r ans
   [[ "$ans" =~ ^[Yy]$ ]]
 }
+
+pkglist() { grep -vE '^[[:space:]]*(#|$)' "$1"; }
 
 require_arch() {
   if [[ ! -f /etc/arch-release ]]; then
@@ -59,7 +41,7 @@ require_arch() {
 # ----------- checks -----------
 require_arch
 
-DOTDIR="$(pwd)"
+DOTDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CONFIG_SRC="$DOTDIR/config"
 CONFIG_DST="$HOME/.config"
 ASSETS_SRC="$DOTDIR/assets"
@@ -70,7 +52,7 @@ THEMES_DST="$HOME/.themes"
 if ask "¿Instalar paquetes necesarios?"; then
   info "Actualizando sistema e instalando paquetes..."
 
-  if ! sudo pacman -Syu --needed --noconfirm $(< packages.txt); then
+  if ! sudo pacman -Syu --needed --noconfirm $(pkglist "$DOTDIR/packages.txt"); then
     warn "pacman terminó con advertencias, continuando instalación..."
   else
     ok "Paquetes instalados"
@@ -78,29 +60,37 @@ if ask "¿Instalar paquetes necesarios?"; then
 fi
 
 # ----------- AUR ----------
-if command -v yay &>/dev/null; then
-  if [[ -f aur-packages.txt ]]; then
-    info "Instalando paquetes AUR..."
-    yay -S --needed --noconfirm $(< aur-packages.txt)
-    ok "Paquetes AUR instalados"
+if ask "¿Instalar paquetes AUR?"; then
+  if command -v yay &>/dev/null; then
+    if [[ -f "$DOTDIR/aur-packages.txt" ]]; then
+      info "Instalando paquetes AUR..."
+      yay -S --needed --noconfirm $(pkglist "$DOTDIR/aur-packages.txt") \
+        || warn "yay terminó con errores, continuando..."
+      ok "Paquetes AUR instalados"
+    fi
+  else
+    warn "yay no está instalado, saltando AUR"
   fi
-else
-  warn "yay no está instalado, saltando AUR"
 fi
 
 # ----------- configs ----------
-info "Copiando configuraciones a ~/.config"
-mkdir -p "$CONFIG_DST"
+if ask "¿Copiar las configuraciones a ~/.config?"; then
+  info "Copiando configuraciones a ~/.config"
+  mkdir -p "$CONFIG_DST"
 
-for dir in "$CONFIG_SRC"/*; do
-  name="$(basename "$dir")"
-  echo -e "  ${GREEN}→${RESET} $name"
-  
-  mkdir -p "$CONFIG_DST/$name"
-  rsync -a "$dir/" "$CONFIG_DST/$name/"
+  for dir in "$CONFIG_SRC"/*; do
+    name="$(basename "$dir")"
+    echo -e "  ${GREEN}→${RESET} $name"
 
-done
-ok "Configuraciones copiadas"
+    mkdir -p "$CONFIG_DST/$name"
+    if command -v rsync &>/dev/null; then
+      rsync -a "$dir/" "$CONFIG_DST/$name/"
+    else
+      cp -a "$dir/." "$CONFIG_DST/$name/"
+    fi
+  done
+  ok "Configuraciones copiadas"
+fi
 
 # ----------- Wallpapers ----------
 if ask "¿Instalar wallpapers?"; then
@@ -115,7 +105,7 @@ if ask "¿Instalar temas GTK?"; then
   info "Instalando temas GTK..."
   mkdir -p "$THEMES_DST"
   cp -r "$ASSETS_SRC/gtk/"* "$THEMES_DST/"
-  ok "Temas GTK instalados"
+  ok "Temas GTK instalados (se aplican vía GTK_THEME en hyprland.lua)"
 fi
 
 # ----------- ZSH / OH-MY-ZSH ----------
@@ -148,7 +138,8 @@ if ask "¿Instalar y configurar Zsh + Oh My Zsh?"; then
             echo -e "  ${GREEN}→${RESET} $plugin"
             git clone --depth=1 \
               "https://github.com/zsh-users/$plugin" \
-              "$ZSH_CUSTOM/plugins/$plugin"
+              "$ZSH_CUSTOM/plugins/$plugin" \
+              || warn "no se pudo clonar $plugin"
           fi
           ;;
       esac
@@ -158,7 +149,7 @@ if ask "¿Instalar y configurar Zsh + Oh My Zsh?"; then
   cp "$DOTDIR/zsh/.zshrc" "$HOME/.zshrc"
 
   if [[ "$SHELL" != "$(which zsh)" ]]; then
-    chsh -s "$(which zsh)"
+    chsh -s "$(which zsh)" || warn "no se pudo cambiar el shell por defecto"
   fi
 
   ok "Zsh configurado"
@@ -166,13 +157,17 @@ fi
 
 # ----------- MPD ----------
 if ask "¿Configurar MPD como servicio de usuario?"; then
-  info "Configurando MPD"
-  mkdir -p "$HOME/.config/mpd"
-  mkdir -p "$HOME/.local/share/mpd"
-  mkdir -p "$HOME/.cache/mpd"
-  systemctl --user enable mpd.service
-  systemctl --user restart mpd.service
-  ok "MPD habilitado y reiniciado"
+  if ! command -v mpd &>/dev/null; then
+    warn "mpd no está instalado, saltando"
+  else
+    info "Configurando MPD"
+    mkdir -p "$HOME/.config/mpd"
+    mkdir -p "$HOME/.local/share/mpd"
+    mkdir -p "$HOME/.cache/mpd"
+    systemctl --user enable mpd.service  || warn "no se pudo habilitar mpd"
+    systemctl --user restart mpd.service || warn "no se pudo reiniciar mpd"
+    ok "MPD habilitado y reiniciado"
+  fi
 fi
 
 # ----------- Neovim ----------
@@ -183,8 +178,8 @@ if ask "¿Configurar Neovim (Lazy.nvim)?"; then
   cp -r "$CONFIG_SRC/nvim/"* "$HOME/.config/nvim/"
 
   info "Inicializando plugins (Lazy.nvim)..."
-  nvim --headless "+Lazy! sync" +qa || \
-    warn "Lazy falló, se instalará al abrir nvim"
+  nvim --headless "+Lazy! sync" +qa \
+    || warn "Lazy falló, se instalará al abrir nvim"
 
   ok "Neovim configurado"
 fi
@@ -196,32 +191,6 @@ if ask "¿Eliminar el repositorio luego de instalar?"; then
   rm -rf "$DOTDIR"
 fi
 
-cat <<'EOF'
-   /$$     /$$                        /$$$$$$                                                              /$$   /$$                                            
-  | $$    | $$                       /$$__  $$                                                            |__/  | $$                                            
- /$$$$$$  | $$$$$$$  /$$   /$$      | $$  \__//$$$$$$   /$$$$$$        /$$   /$$  /$$$$$$$  /$$$$$$        /$$ /$$$$$$                                          
-|_  $$_/  | $$__  $$|  $$ /$$/      | $$$$   /$$__  $$ /$$__  $$      | $$  | $$ /$$_____/ /$$__  $$      | $$|_  $$_/                                          
-  | $$    | $$  \ $$ \  $$$$/       | $$_/  | $$  \ $$| $$  \__/      | $$  | $$|  $$$$$$ | $$$$$$$$      | $$  | $$                                            
-  | $$ /$$| $$  | $$  >$$  $$       | $$    | $$  | $$| $$            | $$  | $$ \____  $$| $$_____/      | $$  | $$ /$$                                        
-  |  $$$$/| $$  | $$ /$$/\  $$      | $$    |  $$$$$$/| $$            |  $$$$$$/ /$$$$$$$/|  $$$$$$$      | $$  |  $$$$//$$                                     
-   \___/  |__/  |__/|__/  \__/      |__/     \______/ |__/             \______/ |_______/  \_______/      |__/   \___/ | $/                                     
-                                                                                                                       |_/                                      
-                                                                                                                                                                
-                                                                                                                                                                
- /$$$$$$       /$$                                                                                                                                 /$$   /$$    
-|_  $$_/      | $$                                                                                                                                |__/  | $$    
-  | $$        | $$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$        /$$   /$$  /$$$$$$  /$$   /$$        /$$$$$$  /$$$$$$$  /$$  /$$$$$$  /$$   /$$       /$$ /$$$$$$  
-  | $$        | $$__  $$ /$$__  $$ /$$__  $$ /$$__  $$      | $$  | $$ /$$__  $$| $$  | $$       /$$__  $$| $$__  $$|__/ /$$__  $$| $$  | $$      | $$|_  $$_/  
-  | $$        | $$  \ $$| $$  \ $$| $$  \ $$| $$$$$$$$      | $$  | $$| $$  \ $$| $$  | $$      | $$$$$$$$| $$  \ $$ /$$| $$  \ $$| $$  | $$      | $$  | $$    
-  | $$        | $$  | $$| $$  | $$| $$  | $$| $$_____/      | $$  | $$| $$  | $$| $$  | $$      | $$_____/| $$  | $$| $$| $$  | $$| $$  | $$      | $$  | $$ /$$
- /$$$$$$      | $$  | $$|  $$$$$$/| $$$$$$$/|  $$$$$$$      |  $$$$$$$|  $$$$$$/|  $$$$$$/      |  $$$$$$$| $$  | $$| $$|  $$$$$$/|  $$$$$$$      | $$  |  $$$$/
-|______/      |__/  |__/ \______/ | $$____/  \_______/       \____  $$ \______/  \______/        \_______/|__/  |__/| $$ \______/  \____  $$      |__/   \___/  
-                                  | $$                       /$$  | $$                                         /$$  | $$           /$$  | $$                    
-                                  | $$                      |  $$$$$$/                                        |  $$$$$$/          |  $$$$$$/                    
-                                  |__/                       \______/                                          \______/            \______/
-EOF
-
 echo
 ok "Instalación terminada"
 warn "Reinicia sesión o el sistema para aplicar todo"
-
