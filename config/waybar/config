@@ -43,8 +43,9 @@
     },
 
     "clock": {
-                "format": "{:%a %d %b  %H:%M}",
-        "interval": 1,   
+                "format": "{:L%a %d %b  %H:%M}",
+        "locale": "es_CL.UTF-8",
+        "interval": 1,
         "tooltip-format": "<tt><big>{calendar}</big></tt>",
         "calendar": {
             "format": {
