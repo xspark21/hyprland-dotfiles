@@ -2,6 +2,7 @@
 export ZSH="$HOME/.oh-my-zsh"
 export EDITOR=nvim
 export VISUAL=nvim
+export RUSTC_WRAPPER=sccache
 
 ENABLE_CORRECTION="true"
 
@@ -37,8 +38,10 @@ wifi_connect() {
     echo "      WiFi Connector (iwctl)"
     echo "=================================="
 
+    # iwctl mete códigos de color; hay que limpiarlos antes de parsear
     local iface
-    iface=$(iwctl device list | awk 'NR==2 {print $1}')
+    iface=$(iwctl device list | sed -r 's/\x1b\[[0-9;]*m//g' \
+        | awk '/([0-9a-fA-F]{2}:){5}/{print $1; exit}')
 
     if [[ -z "$iface" ]]; then
         echo "[!] Interfaz wifi no detectada"
@@ -46,13 +49,13 @@ wifi_connect() {
     fi
 
     echo "[*] Escaneando redes..."
-    iwctl station "$iface" scan >/dev/null
-    sleep 1
+    iwctl station "$iface" scan >/dev/null 2>&1
+    sleep 2
 
     local networks
     networks=$(iwctl station "$iface" get-networks \
-        | sed '1,4d' \
-        | sed '/^$/d')
+        | sed -r 's/\x1b\[[0-9;]*m//g' \
+        | sed -E '/^[[:space:]]*$/d; /Available networks/d; /Network name/d; /^[[:space:]]*-+[[:space:]]*$/d')
 
     if [[ -z "$networks" ]]; then
         echo "[!] Ninguna red encontrada"
@@ -65,7 +68,7 @@ wifi_connect() {
     echo "$networks" | nl -w2 -s'. '
 
     echo
-    read -p "Elegir red [numero]: " selection
+    read -r "selection?Elegir red [numero]: "
 
     local line
     line=$(echo "$networks" | sed -n "${selection}p")
@@ -76,7 +79,7 @@ wifi_connect() {
     fi
 
     local ssid
-    ssid=$(echo "$line" | sed 's/  .*//')
+    ssid=$(echo "$line" | sed -E 's/^[[:space:]]*>?[[:space:]]*//; s/[[:space:]]{2,}.*//')
 
     echo
     echo "[+] Conectando a \"$ssid\"..."
@@ -90,7 +93,7 @@ wifi_connect() {
 alias py='python'
 
 ######################################################################
-# script sencillo para compilar y correr archivos rs sin dependencias, 
+# script sencillo para compilar y correr archivos rs sin dependencias,
 # remplaza el uso de rustc archivo.rs && ./archivo
 ######################################################################
 
@@ -125,7 +128,7 @@ rs-new() {
     local file="${1:-script.rs}"
 
     cat > "$file" << 'EOF'
-// cargo-deps: 
+// cargo-deps:
 
 fn main() {
 
@@ -204,23 +207,23 @@ _ytdlp() {
     yt-dlp "$@" -o "$output_dir/%(title)s.%(ext)s"
 }
 
-# para albumes/playlist 
-yt-album() {
+# para albumes/playlist
+album() {
     _ytdlp "$HOME/music/albums" \
         -x --audio-format opus \
         --embed-metadata --embed-thumbnail \
         --yes-playlist "$1"
 }
 
-# solo una cancion 
-yt-song() {
+# solo una cancion
+song() {
     _ytdlp "$HOME/music" \
         -x --audio-format opus \
         --embed-metadata --embed-thumbnail "$1"
 }
 
 # audio en general (para edicion por ejemplo)
-yt-audio() {
+audio() {
     _ytdlp "$HOME/sounds" -x --audio-format best "$1"
 }
 
@@ -243,4 +246,3 @@ mvk1080() {
         --merge-output-format mkv \
         "$1"
 }
-
