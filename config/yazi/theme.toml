@@ -1,0 +1,54 @@
+[mgr]
+cwd             = { fg = "#6b7388" }
+# Barra del cursor: fondo propio, sin fg para no pisar el color de carpetas
+hovered = { fg = "#00ff00", bg = "#0000ff", reversed = false }
+preview_hovered = { bg = "#1a1d29", reversed = false }
+
+border_style    = { fg = "#14141a" }
+symlink_target  = { fg = "#6b7388", italic = true }
+
+find_keyword  = { fg = "#d10028", bold = true }
+find_position = { fg = "#6b7388" }
+
+# Marcadores
+marker_selected = { fg = "#d10028", bg = "#d10028" }
+marker_marked   = { fg = "#6b7388", bg = "#6b7388" }
+marker_copied   = { fg = "#cddffd", bg = "#cddffd" }
+marker_cut      = { fg = "#6e0f1f", bg = "#6e0f1f" }
+
+# Contadores
+count_selected = { fg = "#050505", bg = "#d10028" }
+count_copied   = { fg = "#050505", bg = "#cddffd" }
+count_cut      = { fg = "#cddffd", bg = "#6e0f1f" }
+
+# Pestañas
+tab_active   = { fg = "#050505", bg = "#d10028", bold = true }
+tab_inactive = { fg = "#6b7388", bg = "#0c0c10" }
+
+[status]
+overall     = { bg = "#000000", fg = "#6b7388" }
+sep_left    = { open = "", close = "" }
+sep_right   = { open = "", close = "" }
+
+mode_normal = { main = { fg = "#050505", bg = "#d10028", bold = true }, alt = { fg = "#6b7388", bg = "#0c0c10" } }
+mode_select = { main = { fg = "#050505", bg = "#cddffd", bold = true }, alt = { fg = "#6b7388", bg = "#0c0c10" } }
+mode_unset  = { main = { fg = "#cddffd", bg = "#6e0f1f", bold = true }, alt = { fg = "#6b7388", bg = "#0c0c10" } }
+
+
+[filetype]
+rules = [
+  # Texto de las carpetas
+  { url = "*/", fg = "#675792" },
+
+  { url = "*", is = "link",   fg = "#6b7388", italic = true },
+  { url = "*", is = "orphan", fg = "#e893a1", crossed = true },
+]
+
+[indicator]
+parent  = { bg = "#191a1d", reversed = false }
+current = { bg = "#440000", reversed = false }
+preview = { bg = "#191a1d", reversed = false }
+padding = { open = "", close = "" }
+
+
+#para archivos hidden #413f46

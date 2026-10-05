@@ -1,0 +1,15 @@
+[mgr]
+prepend_keymap = [
+    # { } cambian de pestaña
+    { on = "{", run = "tab_switch -1 --relative", desc = "Pestaña anterior" },
+    { on = "}", run = "tab_switch 1 --relative",  desc = "Pestaña siguiente" },
+
+    # [ ] intercambian la posición de las pestañas
+    { on = "[", run = "tab_swap -1", desc = "Intercambiar con la pestaña anterior" },
+    { on = "]", run = "tab_swap 1",  desc = "Intercambiar con la pestaña siguiente" },
+        { on = "i", run = "plugin toggle-pane max-preview", desc = "Maximizar o restaurar el preview" },
+
+    { on = "<Enter>", run = "plugin smart-enter", desc = "Entrar a carpeta o abrir archivo" },
+    { on = [ "g", "d" ], run = "cd ~/descargas", desc = "Go to ~/descargas" },
+    { on = [ "g", "r" ], run = "cd ~/repositorios", desc = "Go to ~/repositorios" },
+]
